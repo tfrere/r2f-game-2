@@ -1,20 +1,20 @@
 import * as THREE from "three";
-import React from "react";
-import Scene from "./components/Scene";
-import { Canvas } from "@react-three/fiber";
+import React, { useContext } from "react";
+import Scene from "./Game/Scene";
+import "./styles/styles.css";
 
-import "./styles.css";
+import JoystickContext from "./context/JoystickContext";
 
 const App = () => {
+  const joystickValue = useContext(JoystickContext);
+
   return (
     <div id="app">
-      <Canvas>
+      <JoystickContext.Provider value={joystickValue}>
         <Scene />
-      </Canvas>
+      </JoystickContext.Provider>
     </div>
   );
 };
 
 export default App;
-
-// ReactDOM.render(<App />, document.getElementById('root'))

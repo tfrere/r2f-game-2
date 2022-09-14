@@ -1,0 +1,12 @@
+{
+  "speed": 5,
+  "cameraPosition": [0, 16, 20],
+  "colors": {
+    "background": "#68BF9D",
+    "wall": "#469483",
+    "stars": "#F0FEF9",
+    "player": "#ffffff",
+    "ennemy": "#EE714A",
+    "debugBox": "blue"
+  }
+}

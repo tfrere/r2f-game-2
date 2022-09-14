@@ -1,0 +1,98 @@
+html,
+body,
+#root,
+#app {
+  width: 100vw;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background-color: #68BF9D;
+}
+
+.nipple.collection_0 {
+  bottom: 100px!important;
+  left:100px!important;
+  top: auto!important;
+}
+
+.ui-text {
+  color: white;
+  font-family: 'Roboto';
+  font-weight:900;
+  text-transform: uppercase;
+}
+
+.ui-score, .ui-pause, .ui-title, .ui-start {
+  position: absolute;
+  z-index: 9999;
+}
+
+.ui-score {
+  top:20px;
+  left:20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-label {
+  color: white;
+  opacity: .5;
+  font-family: 'Roboto';
+  font-weight:900;
+  text-transform: uppercase;
+}
+
+.ui-value {
+  color: white;
+  font-family: 'Roboto';
+  font-weight:900;
+  text-transform: uppercase;
+  font-size:2rem;
+}
+
+.ui-pause {
+  bottom:20px;
+  width: 100%;
+  text-align:center;
+}
+
+.ui-title {
+  top:20px;
+  right:20px;
+}
+
+.ui-start {
+ width:100%;
+ height:100%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+
+.ui-start__content {
+  font-size: 2rem;
+  animation: blink-animation 2s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+.stats {
+  position: absolute;
+  top:unset!important;
+  left:unset!important;
+  bottom:0!important;
+  right:0!important;
+}
+
+.key-box {
+  border:1px solid white;
+  border-radius:3px;
+  padding:5px 10px;
+}
