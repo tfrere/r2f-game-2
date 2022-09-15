@@ -9,20 +9,39 @@ import cubeTextureB from "images/cube-b.jpg";
 import cubeTextureC from "images/cube-c.jpg";
 import cubeTextureD from "images/cube-d.jpg";
 
-import { random } from "lodash-es";
+import { clamp, random } from "lodash-es";
+
+import brickSound from "sounds/bricks/brick-1.mp3";
 
 const textures = [cubeTextureA, cubeTextureB, cubeTextureC, cubeTextureD];
 
 function Cube(props) {
+  const brick = new Audio(brickSound);
+  console.log("rerender cube");
   const [ref, api] = useBox(
-    () => ({ args: props.args, mass: 0.05, ...props }),
+    () => ({
+      onCollide: (e) => {
+        brick.currentTime = 0;
+        brick.volume = clamp(e.contact.impactVelocity / 20, 0, 1);
+        brick.play();
+      },
+      collisionFilterGroup: props.collisionFilterGroup,
+      args: props.args,
+      mass: 0.2,
+      ...props,
+    }),
     useRef(null)
   );
 
-  const map = useMemo(
-    () => useLoader(TextureLoader, textures[random(0, 3)]),
-    []
+  const map = useLoader(
+    TextureLoader,
+    textures[props.collisionFilterGroup - 21]
   );
+
+  // const map = useMemo(
+  //   () => useLoader(TextureLoader, textures[props.collisionFilterGroup - 21]),
+  //   []
+  // );
 
   return (
     <Box args={props.args} ref={ref}>

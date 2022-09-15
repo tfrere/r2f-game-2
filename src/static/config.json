@@ -1,11 +1,19 @@
 {
-  "speed": 5,
-  "cameraPosition": [0, 16, 20],
+  "player": {
+    "speed": 2,
+    "mass": 12,
+    "jumpVelocity": 200
+  },
+  "camera": {
+    "position": [0, 20, 25]
+  },
   "colors": {
     "background": "#68BF9D",
     "wall": "#469483",
     "stars": "#F0FEF9",
     "player": "#ffffff",
+    "playerTrail": "#FFDDE8",
+    "exit": "#68BF9D",
     "ennemy": "#EE714A",
     "debugBox": "blue"
   }

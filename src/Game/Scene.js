@@ -1,23 +1,21 @@
-import { TextureLoader, Vector3 } from "three";
 import React, { useRef, useEffect, useContext, useState } from "react";
-import { useThree, useFrame, useLoader } from "@react-three/fiber";
-import { Text, Segments, Segment } from "@react-three/drei";
-import { Physics, usePlane, useBox } from "@react-three/cannon";
 import { useKey } from "react-use";
 
-import fontUrl from "fonts/1.woff";
-import config from "static/config.json";
-
 import useStore from "Game/Store/Store.js";
-import Cube from "Game/Components/Cube.js";
-import Debug from "Game/Components/Debug.js";
-import Player from "Game/Components/Player.js";
+import Timer from "Game/Components/Timer.js";
 
 import LevelOne from "Game/Levels/LevelOne.js";
+import LevelTwo from "Game/Levels/LevelTwo.js";
 import { Canvas } from "@react-three/fiber";
 
+import {
+  EffectComposer,
+  DepthOfField,
+  Bloom,
+} from "@react-three/postprocessing";
+
 const Scene = () => {
-  const score = useStore((state) => state.score);
+  const time = useStore((state) => state.time);
   const isPaused = useStore((state) => state.isPaused);
   const toggleIsPaused = useStore((state) => state.toggleIsPaused);
   const isDebug = useStore((state) => state.isDebug);
@@ -41,10 +39,12 @@ const Scene = () => {
         setIsLoadingLevel(false);
       }, 1000);
       console.log("start game");
-    } else {
-      toggleIsPaused();
-      console.log(`isPaused -> ${useStore.getState().isPaused}`);
     }
+    // disable pause
+    // else {
+    //   toggleIsPaused();
+    //   console.log(`isPaused -> ${useStore.getState().isPaused}`);
+    // }
   });
 
   useKey("r", () => {
@@ -52,17 +52,13 @@ const Scene = () => {
     setIsLoadingLevel(true);
     window.setTimeout(() => {
       setIsLoadingLevel(false);
-    }, 1000);
+    }, 10);
     console.log("restart game");
   });
 
   return (
     <>
       <div className="ui-text ui-pause">{isPaused ? "game paused" : null}</div>
-      <div className="ui-text ui-score">
-        <span className="ui-label">SCORE </span>
-        <span className="ui-value">{Math.round(score)}</span>
-      </div>
       {!hasStarted && !isLoadingLevel && (
         <div className="ui-text ui-start">
           <span className="ui-start__content">
@@ -81,11 +77,13 @@ const Scene = () => {
           antialias: false,
           alpha: true,
         }}
+        dpr={[1, 1.5]}
+        camera={{ fov: 75, near: 0.1, far: 100, position: [0, 0, 5] }}
         resize={{ scroll: true, debounce: { scroll: 50, resize: 50 } }}
       >
         <ambientLight intensity={0.7} />
         {/* <color attach="background" args={[config.colors.background]} /> */}
-        <spotLight
+        {/* <spotLight
           position={[0, 5, 0]}
           angle={Math.PI / 4}
           penumbra={0.9}
@@ -93,10 +91,20 @@ const Scene = () => {
           castShadow
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
-        />
-        {/* <EffectComposer>
-        <DepthOfField target={[0, 0, 3]} focusRange={0.15} bokehScale={4} />
-      </EffectComposer> */}
+        /> */}
+        {/* <EffectComposer> */}
+        {/* <DepthOfField
+            target={[8, 0.1, -12]}
+            height={480}
+            focusRange={10}
+            bokehScale={8}
+          /> */}
+        {/* <Bloom
+            luminanceThreshold={0.8}
+            luminanceSmoothing={0.9}
+            height={300}
+          /> */}
+        {/* </EffectComposer> */}
         {!isLoadingLevel && <LevelOne />}
       </Canvas>
     </>

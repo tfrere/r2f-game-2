@@ -1,31 +1,47 @@
 import create from "zustand";
-import { clamp } from "lodash-es";
-import brick1 from "sounds/bricks/brick-1.mp3";
-// import brick2 from "sounds/bricks/brick-2.mp3";
-// import brick3 from "sounds/bricks/brick-3.mp3";
-// import brick4 from "sounds/bricks/brick-4.mp3";
-// import brick5 from "sounds/bricks/brick-5.mp3";
-// import brick6 from "sounds/bricks/brick-6.mp3";
 
-// const soundList = [brick1, brick2, brick3, brick4, brick5, brick6];
-
-const ping = new Audio(brick1);
+import dayjs from "dayjs";
 
 const useStore = create((set) => ({
-  setScore(score) {
-    ping.currentTime = 0;
-    ping.volume = clamp(score / 20, 0, 1);
-    ping.play();
-    set((state) => ({ score: state.score + score }));
+  // vars
+  isPaused: false,
+  hasJumped: false,
+  isDebug: false,
+  hasStarted: false,
+  level: 0,
+  time: dayjs(),
+  speed: 2,
+  gravity: [0, -50, 0],
+  jump: 200,
+  mass: 2,
+  // set
+  setTime(value) {
+    set(() => ({ time: value }));
   },
-  toggleIsDebug() {
-    set((state) => {
-      return { isDebug: !state.isDebug };
-    });
+  setLevel(value) {
+    set(() => ({ level: value }));
+  },
+  setMass(value) {
+    set(() => ({ mass: value }));
   },
   setHasJumped(value) {
     set(() => {
       return { hasJumped: value };
+    });
+  },
+  setSpeed(value) {
+    set(() => ({ speed: value }));
+  },
+  setGravity(value) {
+    set(() => ({ gravity: value }));
+  },
+  setJump(value) {
+    set(() => ({ jump: value }));
+  },
+  // toggle
+  toggleIsDebug() {
+    set((state) => {
+      return { isDebug: !state.isDebug };
     });
   },
   toggleIsPaused() {
@@ -33,23 +49,10 @@ const useStore = create((set) => ({
       return { isPaused: !state.isPaused };
     });
   },
+  // complex
   setStart() {
-    set(() => ({ hasStarted: true, score: 0 }));
+    set(() => ({ hasStarted: true, time: dayjs(), gravity: [0, -50, 0] }));
   },
-  setSpeed(value) {
-    set(() => ({ speed: value }));
-  },
-  setJump(value) {
-    set(() => ({ jump: value }));
-  },
-  isPaused: false,
-  hasJumped: false,
-  isDebug: true,
-  hasStarted: false,
-  // level: 0,
-  score: 0,
-  speed: 2,
-  jump: 2,
 }));
 
 export default useStore;

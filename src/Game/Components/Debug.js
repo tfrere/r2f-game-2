@@ -5,24 +5,25 @@ import useStore from "Game/Store/Store.js";
 import { useEffect } from "react";
 
 function Debug(props) {
-  const hasStarted = useStore((state) => state.hasStarted);
+  const isDebug = useStore((state) => state.isDebug);
   const setSpeed = useStore((state) => state.setSpeed);
   const setJump = useStore((state) => state.setJump);
-  const { guiSpeed, guiJump } = useControls({ guiSpeed: 2, guiJump: 200 });
+  const setMass = useStore((state) => state.setMass);
+  const { guiSpeed, guiJumpVelocity, guiMass } = useControls({
+    guiSpeed: config.player.speed + 0,
+    guiMass: config.player.mass + 0,
+    guiJumpVelocity: config.player.jumpVelocity + 0,
+  });
 
   useEffect(() => {
     setSpeed(guiSpeed);
-    setJump(guiJump);
-  }, [guiSpeed, guiJump]);
+    setMass(guiMass);
+    setJump(guiJumpVelocity);
+  }, [guiSpeed, guiJumpVelocity, guiMass]);
 
   return (
     <>
       <Stats className="stats" />
-      {hasStarted ?? (
-        <gridHelper
-          args={[50, 20, config.colors.player, config.colors.player]}
-        />
-      )}
     </>
   );
 }
